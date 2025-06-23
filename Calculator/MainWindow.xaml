@@ -1,0 +1,82 @@
+﻿<Window x:Name="window" x:Class="Calculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculator"
+        mc:Ignorable="d"
+        Title="Calculator" Width="400" Height="600" MinWidth="300" MinHeight="400" MaxWidth="900" MaxHeight="1200" KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <Style x:Key="buttonLayout" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="AliceBlue"/>
+        </Style>
+        <Style x:Key="TextLayout" TargetType="{x:Type TextBox}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+    </Window.Resources>
+    <Grid x:Name="Grid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25">
+            </RowDefinition>
+            <RowDefinition Height="50">
+            </RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="History" Grid.Row="0" Style="{StaticResource TextLayout}" Text="" IsReadOnly="True"/>
+        <TextBox x:Name="Input" Grid.Row="1" Style="{StaticResource TextLayout}" FontSize="25" Text="" MaxLength="11" IsReadOnly="True"/>
+        <Grid x:Name="Keypad" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="PercentButton" Grid.Column="0" Grid.Row="0" Content="%" Style="{StaticResource buttonLayout}" Click="PercentButton_Click" />
+            <Button x:Name="ClearEntryButton" Grid.Column="1" Grid.Row="0" Content="CE" Style="{StaticResource buttonLayout}" Click="ClearEntryButton_Click" />
+            <Button x:Name="ClearButton" Grid.Column="2" Grid.Row="0" Content="C" Style="{StaticResource buttonLayout}" Click="ClearButton_Click" />
+            <Button x:Name="DeleteButton" Grid.Column="3" Grid.Row="0" Content="Del" Style="{StaticResource buttonLayout}" Click="DeleteButton_Click" />
+
+            <Button x:Name="OneFractionButton" Grid.Column="0" Grid.Row="1" Content="1/x" Style="{StaticResource buttonLayout}" Click="OneFractionButton_Click" />
+            <Button x:Name="SquaredButton" Grid.Column="1" Grid.Row="1" Content="squared" Style="{StaticResource buttonLayout}" Click="SquaredButton_Click" />
+            <Button x:Name="SquaredRootButton" Grid.Column="2" Grid.Row="1" Content="sqrt" Style="{StaticResource buttonLayout}" Click="SquaredRootButton_Click" />
+            <Button x:Name="DivideButton" Grid.Column="3" Grid.Row="1" Content="/" Style="{StaticResource buttonLayout}" Click="DivideButton_Click" />
+
+            <Button x:Name="SevenButton" Grid.Column="0" Grid.Row="2" Content="7" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="EightButton" Grid.Column="1" Grid.Row="2" Content="8" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="NineButton" Grid.Column="2" Grid.Row="2" Content="9" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="MultiplyButton" Grid.Column="3" Grid.Row="2" Content="x" Style="{StaticResource buttonLayout}" Click="MultiplyButton_Click" />
+
+            <Button x:Name="FourButton" Grid.Column="0" Grid.Row="3" Content="4" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="FiveButton" Grid.Column="1" Grid.Row="3" Content="5" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="SixButton" Grid.Column="2" Grid.Row="3" Content="6" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="SubtractButton" Grid.Column="3" Grid.Row="3" Content="-" Style="{StaticResource buttonLayout}" Click="SubtractButton_Click" />
+
+            <Button x:Name="OneButton" Grid.Column="0" Grid.Row="4" Content="1" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="TwoButton" Grid.Column="1" Grid.Row="4" Content="2" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="ThreeButton" Grid.Column="2" Grid.Row="4" Content="3" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
+            <Button x:Name="AdditionButton" Grid.Column="3" Grid.Row="4" Content="+" Style="{StaticResource buttonLayout}" Click="AdditionButton_Click" />
+
+            <Button x:Name="SignButton" Grid.Column="0" Grid.Row="5" Content="+/-" Style="{StaticResource buttonLayout}" Click="SignButton_Click" />
+            <Button x:Name="ZeroButton" Grid.Column="1" Grid.Row="5" Content="0" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click"/>
+            <Button x:Name="CommaButton" Grid.Column="2" Grid.Row="5" Content="," Style="{StaticResource buttonLayout}" Click="CommaButton_Click" />
+            <Button x:Name="ResultButton" Grid.Column="3" Grid.Row="5" Content="=" Style="{StaticResource buttonLayout}" Foreground="White" Background="CornflowerBlue" Click="ResultButton_Click" />
+        </Grid>
+    </Grid>
+</Window>
