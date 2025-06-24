@@ -18,11 +18,8 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        HashSet<Key> m_validKeyStrokes = new HashSet<Key>();
-
         private bool m_userDidInput = false;
         private bool m_CommaSet = false;
-        private bool m_OperationSet = false;
         private string m_PreviousHistory = string.Empty;
         private string m_currentInput = string.Empty;
 
@@ -48,122 +45,20 @@ namespace Calculator
         public MainWindow()
         {
             InitializeComponent();
-            FillMapping();
+            Logic.FillKeyButtonMap(this);
             InputTextBoxText = "0";
         }
-
-        private void FillMapping()
-        {
-            m_validKeyStrokes.Add(Key.D0);
-            m_validKeyStrokes.Add(Key.D1);
-            m_validKeyStrokes.Add(Key.D2);
-            m_validKeyStrokes.Add(Key.D3);
-            m_validKeyStrokes.Add(Key.D4);
-            m_validKeyStrokes.Add(Key.D5);
-            m_validKeyStrokes.Add(Key.D6);
-            m_validKeyStrokes.Add(Key.D7);
-            m_validKeyStrokes.Add(Key.D8);
-            m_validKeyStrokes.Add(Key.D9);
-
-            m_validKeyStrokes.Add(Key.NumPad0);
-            m_validKeyStrokes.Add(Key.NumPad1);
-            m_validKeyStrokes.Add(Key.NumPad2);
-            m_validKeyStrokes.Add(Key.NumPad3);
-            m_validKeyStrokes.Add(Key.NumPad4);
-            m_validKeyStrokes.Add(Key.NumPad5);
-            m_validKeyStrokes.Add(Key.NumPad6);
-            m_validKeyStrokes.Add(Key.NumPad7);
-            m_validKeyStrokes.Add(Key.NumPad8);
-            m_validKeyStrokes.Add(Key.NumPad9);
-
-            m_validKeyStrokes.Add(Key.OemComma);
-            m_validKeyStrokes.Add(Key.Decimal);
-
-            m_validKeyStrokes.Add(Key.Multiply);
-            m_validKeyStrokes.Add(Key.Divide);
-            m_validKeyStrokes.Add(Key.Subtract);
-            m_validKeyStrokes.Add(Key.Add);
-
-            m_validKeyStrokes.Add(Key.Enter);
-            m_validKeyStrokes.Add(Key.Return);
-            m_validKeyStrokes.Add(Key.Back);
-        }
-
-        private void UpdateTextBox(Key key)
-        {
-            if (key >= Key.D0 && key <= Key.D9)
-            {
-                if (Input.Text == "0")
-                {
-                    Input.Text = ((int)(key - 34)).ToString();
-                }
-
-                Input.Text += (int)(key - 34);
-            }
-            else if (key >= Key.NumPad0 && key <= Key.NumPad9)
-            {
-                Input.Text += (int)(key - 74);
-            }
-            else if (key == Key.OemComma || key == Key.Decimal)
-            {
-                Input.Text += ",";
-            }
-            else if (key == Key.Enter && key == Key.Return)
-            {
-
-            }
-            else if (key == Key.Back)
-            {
-                if (Input.Text == "0") return;
-
-                Input.Text = Input.Text[..^1];
-
-                if (Input.Text == String.Empty)
-                {
-                    Input.Text = "0";
-                }
-            }
-            else
-            {
-                switch (key)
-                {
-                    case Key.Multiply:
-                        {
-                            Input.Text += " " + "*" + " ";
-                            break;
-                        }
-                    case Key.Divide:
-                        {
-                            Input.Text += " " + "*" + " ";
-                            break;
-                        }
-                    case Key.Subtract:
-                        {
-                            Input.Text += " " + "/" + " ";
-                            break;
-                        }
-                    case Key.Add:
-                        {
-                            Input.Text += " " + "+" + " ";
-                            break;
-                        }
-                    default: break;
-
-                }
-            }
-        }
-
 
         // User Inputs through Keyboard
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!m_validKeyStrokes.Contains(e.Key))
+            if (Logic.KeyButtonMapping.TryGetValue(e.Key, out Button pressedButton))
             {
-                e.Handled = true;
+                pressedButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
 
-            UpdateTextBox(e.Key);
+            e.Handled = true;
         }
 
         // Pressing Numbers on the Keypad UI
@@ -172,19 +67,21 @@ namespace Calculator
         {
             string? clickedButtonName = ((Button)sender).Content.ToString();
 
-            if (clickedButtonName != null)
+            if (clickedButtonName == null)
             {
-                if (InputTextBoxText == "0")
-                {
-                    InputTextBoxText = clickedButtonName;
-                }
-                else
-                {
-                    InputTextBoxText += clickedButtonName;
-                }
-
-                m_userDidInput = true;
+                return;
             }
+
+            if (InputTextBoxText == "0")
+            {
+                InputTextBoxText = clickedButtonName;
+            }
+            else
+            {
+                InputTextBoxText += clickedButtonName;
+            }
+
+            m_userDidInput = true;
         }
 
         /* Mathematical Operations which take two Inputs
@@ -192,13 +89,14 @@ namespace Calculator
          *  Subtraction
          *  Multiplication
          *  Division
+         *  
+         *  Too Add More See Logic.cs / MathCalc
         */
 
         private void TwoInputOperation_Click(object sender, RoutedEventArgs e)
         {
             string? buttonContent = ((Button)sender).Content.ToString();
             string cleanButtonContentName = buttonContent != null ? buttonContent : " ";
-
 
             // Check if OperationButton was pressed before
 
@@ -212,6 +110,7 @@ namespace Calculator
                         HistoryTextBoxText = m_firstConstant + " " + m_Symbol + " ";
                     }
 
+                    e.Handled = true;
                     return;
                 }
 
@@ -224,21 +123,28 @@ namespace Calculator
 
                 m_firstConstant = calculation;
                 m_secondConstant = string.Empty;
-                m_Symbol = cleanButtonContentName;
-                HistoryTextBoxText = m_firstConstant + " " + m_Symbol + " ";
             }
             else
             {
                 m_firstConstant = InputTextBoxText;
-                m_Symbol = cleanButtonContentName;
-                HistoryTextBoxText = m_firstConstant + " " + m_Symbol + " ";
             }
+
+            m_Symbol = cleanButtonContentName;
+            HistoryTextBoxText = m_firstConstant + " " + m_Symbol + " ";
 
             m_userDidInput = false;
             InputTextBoxText = "0";
+            e.Handled = true;
         }
 
         // Pressing specific Operations on the UI
+
+        private void OneInputOperation_Click(object sender, EventArgs e)
+        {
+            //((Button)sender).Name 
+        }
+
+
 
         private void PercentButton_Click(object sender, RoutedEventArgs e)
         {
