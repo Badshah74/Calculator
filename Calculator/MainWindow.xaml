@@ -56,22 +56,22 @@
             <Button x:Name="OneFractionButton" Grid.Column="0" Grid.Row="1" Content="1/x" Style="{StaticResource buttonLayout}" Click="OneFractionButton_Click" />
             <Button x:Name="SquaredButton" Grid.Column="1" Grid.Row="1" Content="squared" Style="{StaticResource buttonLayout}" Click="SquaredButton_Click" />
             <Button x:Name="SquaredRootButton" Grid.Column="2" Grid.Row="1" Content="sqrt" Style="{StaticResource buttonLayout}" Click="SquaredRootButton_Click" />
-            <Button x:Name="DivideButton" Grid.Column="3" Grid.Row="1" Content="/" Style="{StaticResource buttonLayout}" Click="DivideButton_Click" />
+            <Button x:Name="DivideButton" Grid.Column="3" Grid.Row="1" Content="/" Style="{StaticResource buttonLayout}" Click="TwoInputOperation_Click" />
 
             <Button x:Name="SevenButton" Grid.Column="0" Grid.Row="2" Content="7" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
             <Button x:Name="EightButton" Grid.Column="1" Grid.Row="2" Content="8" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
             <Button x:Name="NineButton" Grid.Column="2" Grid.Row="2" Content="9" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
-            <Button x:Name="MultiplyButton" Grid.Column="3" Grid.Row="2" Content="x" Style="{StaticResource buttonLayout}" Click="MultiplyButton_Click" />
+            <Button x:Name="MultiplyButton" Grid.Column="3" Grid.Row="2" Content="x" Style="{StaticResource buttonLayout}" Click="TwoInputOperation_Click" />
 
             <Button x:Name="FourButton" Grid.Column="0" Grid.Row="3" Content="4" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
             <Button x:Name="FiveButton" Grid.Column="1" Grid.Row="3" Content="5" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
             <Button x:Name="SixButton" Grid.Column="2" Grid.Row="3" Content="6" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
-            <Button x:Name="SubtractButton" Grid.Column="3" Grid.Row="3" Content="-" Style="{StaticResource buttonLayout}" Click="SubtractButton_Click" />
+            <Button x:Name="SubtractButton" Grid.Column="3" Grid.Row="3" Content="-" Style="{StaticResource buttonLayout}" Click="TwoInputOperation_Click" />
 
             <Button x:Name="OneButton" Grid.Column="0" Grid.Row="4" Content="1" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
             <Button x:Name="TwoButton" Grid.Column="1" Grid.Row="4" Content="2" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
             <Button x:Name="ThreeButton" Grid.Column="2" Grid.Row="4" Content="3" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
-            <Button x:Name="AdditionButton" Grid.Column="3" Grid.Row="4" Content="+" Style="{StaticResource buttonLayout}" Click="AdditionButton_Click" />
+            <Button x:Name="AdditionButton" Grid.Column="3" Grid.Row="4" Content="+" Style="{StaticResource buttonLayout}" Click="TwoInputOperation_Click" />
 
             <Button x:Name="SignButton" Grid.Column="0" Grid.Row="5" Content="+/-" Style="{StaticResource buttonLayout}" Click="SignButton_Click" />
             <Button x:Name="ZeroButton" Grid.Column="1" Grid.Row="5" Content="0" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click"/>

@@ -12,21 +12,14 @@ namespace Calculator.Model
 
 
 
-
-
-        public static string MathCalc(string[] strings)
+        public static string MathCalc(string firstterm, string secondterm, string operation)
         {
-            if (strings.Length != 3)
-            {
-                throw new ArgumentException("string array not 3");
-            }
-
-            decimal first = decimal.Parse(strings[0]);
-            decimal second = decimal.Parse(strings[2]);
+            decimal first = decimal.Parse(firstterm);
+            decimal second = decimal.Parse(secondterm);
             decimal solution = 0;
 
 
-            switch(strings[1])
+            switch(operation)
             {
                 case "+":
                     {
@@ -38,7 +31,7 @@ namespace Calculator.Model
                         solution = first - second;
                         break;
                     }
-                case "*":
+                case "x":
                     {
                         solution = first * second;
                         break;
@@ -48,7 +41,13 @@ namespace Calculator.Model
                         solution = first / second;
                         break;
                     }
-                default: break;
+                default:
+                    {
+                        Console.WriteLine("Something went wrong! Opertion doesnt exist"); 
+                        break;
+                    }
+
+
             }
 
             return solution.ToString();

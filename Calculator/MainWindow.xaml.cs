@@ -20,8 +20,16 @@ namespace Calculator
     {
         HashSet<Key> m_validKeyStrokes = new HashSet<Key>();
 
+        private bool m_userDidInput = false;
         private bool m_CommaSet = false;
         private bool m_OperationSet = false;
+        private string m_PreviousHistory = string.Empty;
+        private string m_currentInput = string.Empty;
+
+        private string m_firstConstant = string.Empty;
+        private string m_Symbol = string.Empty;
+        private string m_secondConstant = string.Empty;
+
 
         public string HistoryTextBoxText
         {
@@ -163,11 +171,8 @@ namespace Calculator
         private void NumberKeyPad_Click(object sender, RoutedEventArgs e)
         {
             string? clickedButtonName = ((Button)sender).Content.ToString();
-            if (clickedButtonName == null || Input.Text == "0" && clickedButtonName == "0")
-            {
-                e.Handled = true;
-            }
-            else
+
+            if (clickedButtonName != null)
             {
                 if (InputTextBoxText == "0")
                 {
@@ -177,7 +182,60 @@ namespace Calculator
                 {
                     InputTextBoxText += clickedButtonName;
                 }
+
+                m_userDidInput = true;
             }
+        }
+
+        /* Mathematical Operations which take two Inputs
+         *  Addition
+         *  Subtraction
+         *  Multiplication
+         *  Division
+        */
+
+        private void TwoInputOperation_Click(object sender, RoutedEventArgs e)
+        {
+            string? buttonContent = ((Button)sender).Content.ToString();
+            string cleanButtonContentName = buttonContent != null ? buttonContent : " ";
+
+
+            // Check if OperationButton was pressed before
+
+            if (m_Symbol != string.Empty)
+            {
+                if (m_userDidInput == false)
+                {
+                    if (cleanButtonContentName != m_Symbol)
+                    {
+                        m_Symbol = cleanButtonContentName;
+                        HistoryTextBoxText = m_firstConstant + " " + m_Symbol + " ";
+                    }
+
+                    return;
+                }
+
+
+                m_secondConstant = InputTextBoxText;
+                HistoryTextBoxText += " " + m_secondConstant;
+
+                // Do Calculation
+                string calculation = Logic.MathCalc(m_firstConstant, m_secondConstant, m_Symbol);
+
+                m_firstConstant = calculation;
+                m_secondConstant = string.Empty;
+                m_Symbol = cleanButtonContentName;
+                HistoryTextBoxText = m_firstConstant + " " + m_Symbol + " ";
+            }
+            else
+            {
+                m_firstConstant = InputTextBoxText;
+                m_Symbol = cleanButtonContentName;
+                HistoryTextBoxText = m_firstConstant + " " + m_Symbol + " ";
+            }
+
+            m_userDidInput = false;
+            InputTextBoxText = "0";
         }
 
         // Pressing specific Operations on the UI
@@ -204,6 +262,9 @@ namespace Calculator
 
             Input.Clear();
             InputTextBoxText = "0";
+            m_firstConstant = string.Empty;
+            m_secondConstant = string.Empty;
+            m_Symbol = string.Empty;
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -231,13 +292,15 @@ namespace Calculator
         private void OneFractionButton_Click(object sender, RoutedEventArgs e)
         {
             // Operating on the user input
-
             if (InputTextBoxText == "0")
             {
                 e.Handled = true;
                 return;
             }
 
+            m_currentInput = InputTextBoxText;
+            m_currentInput = "1/(" + m_currentInput + ")";
+            HistoryTextBoxText = m_PreviousHistory + " " + m_currentInput;
             InputTextBoxText = (1m / decimal.Parse(InputTextBoxText)).ToString();
             e.Handled = true;
         }
@@ -260,94 +323,6 @@ namespace Calculator
 
             InputTextBoxText = ((decimal)Math.Sqrt((double)decimal.Parse(InputTextBoxText))).ToString();
             e.Handled = true;
-        }
-
-        private void DivideButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Take new User input
-
-            if (m_OperationSet)
-            {
-                if (HistoryTextBoxText[^2] == '-' && InputTextBoxText == "0") return;
-
-                HistoryTextBoxText += InputTextBoxText;
-                HistoryTextBoxText = Logic.MathCalc(HistoryTextBoxText.Split(" ")) + " - ";
-            }
-            else
-            {
-                m_OperationSet = true;
-                HistoryTextBoxText += InputTextBoxText + " - ";
-            }
-
-            InputTextBoxText = "0";
-        }
-
-        private void MultiplyButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Take new User input
-
-            if (m_OperationSet)
-            {
-                if (HistoryTextBoxText[^2] == '-' && InputTextBoxText == "0") return;
-
-                HistoryTextBoxText += InputTextBoxText;
-                HistoryTextBoxText = Logic.MathCalc(HistoryTextBoxText.Split(" ")) + " - ";
-            }
-            else
-            {
-                m_OperationSet = true;
-                HistoryTextBoxText += InputTextBoxText + " - ";
-            }
-
-            InputTextBoxText = "0";
-        }
-
-        private void SubtractButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Take new User input
-
-            if (m_OperationSet)
-            {
-                if (HistoryTextBoxText[^2] == '-' && InputTextBoxText == "0") return;
-
-                HistoryTextBoxText += InputTextBoxText;
-                HistoryTextBoxText = Logic.MathCalc(HistoryTextBoxText.Split(" ")) + " - ";
-            }
-            else
-            {
-                m_OperationSet = true;
-                HistoryTextBoxText += InputTextBoxText + " - ";
-            }
-
-            InputTextBoxText = "0";
-        }
-
-        private void AdditionButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Take new User input
-            /*
-             *  Take Text from Input Text box add + take second input 
-             *  If there are 2 values in History and + do calcutation
-             *  Calculation add + Symbol wait for user input
-             *  Handle multiple times of + presses      X
-             *  
-            */
-
-
-            if (m_OperationSet)
-            {
-                if (HistoryTextBoxText[^2] == '+' && InputTextBoxText == "0") return;
-
-                HistoryTextBoxText += InputTextBoxText;
-                HistoryTextBoxText = Logic.MathCalc(HistoryTextBoxText.Split(" ")) + " + ";
-            }
-            else
-            {
-                m_OperationSet = true;
-                HistoryTextBoxText += InputTextBoxText + " + ";
-            }
-
-            InputTextBoxText = "0";
         }
 
         private void SignButton_Click(object sender, RoutedEventArgs e)
