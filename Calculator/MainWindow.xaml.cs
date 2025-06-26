@@ -139,26 +139,43 @@ namespace Calculator
 
         // Pressing specific Operations on the UI
 
-        private void OneInputOperation_Click(object sender, EventArgs e)
+        private void OneInputOperation_Click(object sender, RoutedEventArgs e)
         {
-            //((Button)sender).Name 
-        }
-
-
-
-        private void PercentButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Divide by 100 the user input
-
-            // Operating on the user input
-
             if (InputTextBoxText == "0")
             {
                 e.Handled = true;
                 return;
             }
 
-            InputTextBoxText = (decimal.Parse(InputTextBoxText) / 100m).ToString();
+            // Do Calculation
+            string calculation = Logic.MathOneInputOperations(((Button)sender).Name, InputTextBoxText, out string HistoryText);
+
+
+            // Check on which constant we do operation on
+            // FIX THIS
+            if (m_firstConstant == string.Empty)
+            {
+                m_firstConstant = HistoryText;
+            }
+            else
+            {
+                m_secondConstant = HistoryText;
+            }
+
+            // Update History Text Box
+            HistoryTextBoxText = m_firstConstant;
+            if (m_Symbol != string.Empty)
+            {
+                HistoryTextBoxText += " " + m_Symbol + " ";
+            }
+            else
+            {
+                HistoryTextBoxText += m_Symbol;
+            }
+            HistoryTextBoxText += m_secondConstant;
+
+            // Show Value in InputBx
+            InputTextBoxText = calculation;
             e.Handled = true;
         }
 
@@ -193,42 +210,6 @@ namespace Calculator
             {
                 InputTextBoxText = "0";
             }
-        }
-
-        private void OneFractionButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Operating on the user input
-            if (InputTextBoxText == "0")
-            {
-                e.Handled = true;
-                return;
-            }
-
-            m_currentInput = InputTextBoxText;
-            m_currentInput = "1/(" + m_currentInput + ")";
-            HistoryTextBoxText = m_PreviousHistory + " " + m_currentInput;
-            InputTextBoxText = (1m / decimal.Parse(InputTextBoxText)).ToString();
-            e.Handled = true;
-        }
-
-        private void SquaredButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Operating on the user input
-
-            HistoryTextBoxText += "sqr(" + InputTextBoxText + ")";
-
-            InputTextBoxText = ((decimal)Math.Pow((double)decimal.Parse(InputTextBoxText), 2)).ToString();
-            e.Handled = true;
-        }
-
-        private void SquaredRootButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Operating on the user input
-
-            HistoryTextBoxText += "\u221A(" + InputTextBoxText + ")";
-
-            InputTextBoxText = ((decimal)Math.Sqrt((double)decimal.Parse(InputTextBoxText))).ToString();
-            e.Handled = true;
         }
 
         private void SignButton_Click(object sender, RoutedEventArgs e)

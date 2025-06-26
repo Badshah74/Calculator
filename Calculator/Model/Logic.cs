@@ -12,7 +12,6 @@ namespace Calculator.Model
 {
     public class Logic
     {
-
         private static Dictionary<Key, Button> m_keyButtonMapping = new Dictionary<Key, Button>();
 
 
@@ -82,7 +81,50 @@ namespace Calculator.Model
 
             }
 
-            return solution.ToString();
+            return solution.ToString("0.################");
         }
+
+        public static string MathOneInputOperations(string buttonName, string term, out string OperationString)
+        {
+            decimal value = decimal.Parse(term);
+            decimal solution = decimal.Zero;
+
+
+            switch(buttonName)
+            {
+                case "SquaredButton":
+                    {
+                        solution = ((decimal)Math.Pow((double)value, 2));
+                        OperationString = "(" + term + ")\u00B2";
+                        break;
+                    }
+                case "SquaredRootButton":
+                    {
+                        solution = (decimal)Math.Sqrt((double)value);
+                        OperationString = "\u221A(" + term + ")";
+                        break;
+                    }
+                case "OneFractionButton":
+                    {
+                        solution = 1m / value;
+                        OperationString = "(1 / " + value + ")";
+                        break;
+                    }
+                case "PercentButton":
+                    {
+                        solution = value / 100m;
+                        OperationString = "(" + value + " / 100 )";
+                        break;
+                    }
+                default:
+                    {
+                        OperationString = string.Empty;
+                        break;
+                    }
+            }
+
+            return solution.ToString("0.################");
+        }
+
     }
 }

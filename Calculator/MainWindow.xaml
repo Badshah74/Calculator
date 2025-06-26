@@ -53,9 +53,9 @@
             <Button x:Name="ClearButton" Grid.Column="2" Grid.Row="0" Content="C" Style="{StaticResource buttonLayout}" Click="ClearButton_Click" />
             <Button x:Name="DeleteButton" Grid.Column="3" Grid.Row="0" Content="Del" Style="{StaticResource buttonLayout}" Click="DeleteButton_Click" />
 
-            <Button x:Name="OneFractionButton" Grid.Column="0" Grid.Row="1" Content="1/x" Style="{StaticResource buttonLayout}" Click="OneFractionButton_Click" />
-            <Button x:Name="SquaredButton" Grid.Column="1" Grid.Row="1" Content="squared" Style="{StaticResource buttonLayout}" Click="SquaredButton_Click" />
-            <Button x:Name="SquaredRootButton" Grid.Column="2" Grid.Row="1" Content="sqrt" Style="{StaticResource buttonLayout}" Click="SquaredRootButton_Click" />
+            <Button x:Name="OneFractionButton" Grid.Column="0" Grid.Row="1" Content="1/x" Style="{StaticResource buttonLayout}" Click="OneInputOperation_Click" />
+            <Button x:Name="SquaredButton" Grid.Column="1" Grid.Row="1" Content="squared" Style="{StaticResource buttonLayout}" Click="OneInputOperation_Click" />
+            <Button x:Name="SquaredRootButton" Grid.Column="2" Grid.Row="1" Content="sqrt" Style="{StaticResource buttonLayout}" Click="OneInputOperation_Click" />
             <Button x:Name="DivideButton" Grid.Column="3" Grid.Row="1" Content="/" Style="{StaticResource buttonLayout}" Click="TwoInputOperation_Click" />
 
             <Button x:Name="SevenButton" Grid.Column="0" Grid.Row="2" Content="7" Style="{StaticResource buttonLayout}" Click="NumberKeyPad_Click" />
