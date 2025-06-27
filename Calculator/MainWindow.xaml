@@ -48,7 +48,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="PercentButton" Grid.Column="0" Grid.Row="0" Content="%" Style="{StaticResource buttonLayout}" Click="PercentButton_Click" />
+            <Button x:Name="PercentButton" Grid.Column="0" Grid.Row="0" Content="%" Style="{StaticResource buttonLayout}" Click="OneInputOperation_Click" />
             <Button x:Name="ClearEntryButton" Grid.Column="1" Grid.Row="0" Content="CE" Style="{StaticResource buttonLayout}" Click="ClearEntryButton_Click" />
             <Button x:Name="ClearButton" Grid.Column="2" Grid.Row="0" Content="C" Style="{StaticResource buttonLayout}" Click="ClearButton_Click" />
             <Button x:Name="DeleteButton" Grid.Column="3" Grid.Row="0" Content="Del" Style="{StaticResource buttonLayout}" Click="DeleteButton_Click" />

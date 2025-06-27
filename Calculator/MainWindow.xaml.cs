@@ -132,6 +132,7 @@ namespace Calculator
             m_Symbol = cleanButtonContentName;
             HistoryTextBoxText = m_firstConstant + " " + m_Symbol + " ";
 
+            m_CommaSet = false;
             m_userDidInput = false;
             InputTextBoxText = "0";
             e.Handled = true;
@@ -152,8 +153,7 @@ namespace Calculator
 
 
             // Check on which constant we do operation on
-            // FIX THIS
-            if (m_firstConstant == string.Empty)
+            if (m_Symbol == string.Empty)
             {
                 m_firstConstant = HistoryText;
             }
@@ -183,20 +183,20 @@ namespace Calculator
         {
             // Clear User input
 
-            Input.Clear();
             InputTextBoxText = "0";
-            m_firstConstant = string.Empty;
-            m_secondConstant = string.Empty;
-            m_Symbol = string.Empty;
+            m_CommaSet = false;
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             // Clear User Input and History
 
-            Input.Clear();
             History.Clear();
             InputTextBoxText = "0";
+            m_CommaSet = false;
+            m_firstConstant = string.Empty;
+            m_secondConstant = string.Empty;
+            m_Symbol = string.Empty;
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -240,6 +240,8 @@ namespace Calculator
 
         private void ResultButton_Click(object sender, RoutedEventArgs e)
         {
+            // TODO
+
             if (HistoryTextBoxText == string.Empty)
             {
                 HistoryTextBoxText = InputTextBoxText + " =";
