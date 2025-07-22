@@ -43,7 +43,7 @@ namespace Calculator.Model
             get { return m_keyButtonMapping; }
         }
 
-        public static string MathCalc(string firstterm, string secondterm, string operation)
+        public static string MathTwoInputCalculation(string firstterm, string secondterm, string operation)
         {
             decimal first = decimal.Parse(firstterm);
             decimal second = decimal.Parse(secondterm);
@@ -84,7 +84,7 @@ namespace Calculator.Model
             return solution.ToString("0.################");
         }
 
-        public static string MathOneInputOperations(string buttonName, string term, out string OperationString)
+        public static string MathOneInputCalculation(string buttonName, string term, out string OperationString)
         {
             decimal value = decimal.Parse(term);
             decimal solution = decimal.Zero;

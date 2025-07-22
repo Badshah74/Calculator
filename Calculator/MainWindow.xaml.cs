@@ -20,8 +20,6 @@ namespace Calculator
     {
         private bool m_userDidInput = false;
         private bool m_CommaSet = false;
-        private string m_PreviousHistory = string.Empty;
-        private string m_currentInput = string.Empty;
 
         private string m_firstConstant = string.Empty;
         private string m_Symbol = string.Empty;
@@ -81,6 +79,7 @@ namespace Calculator
                 InputTextBoxText += clickedButtonName;
             }
 
+            Keyboard.ClearFocus();
             m_userDidInput = true;
         }
 
@@ -96,7 +95,7 @@ namespace Calculator
         private void TwoInputOperation_Click(object sender, RoutedEventArgs e)
         {
             string? buttonContent = ((Button)sender).Content.ToString();
-            string cleanButtonContentName = buttonContent != null ? buttonContent : " ";
+            string cleanButtonContentName = buttonContent != null ? buttonContent : string.Empty;
 
             // Check if OperationButton was pressed before
 
@@ -119,7 +118,7 @@ namespace Calculator
                 HistoryTextBoxText += " " + m_secondConstant;
 
                 // Do Calculation
-                string calculation = Logic.MathCalc(m_firstConstant, m_secondConstant, m_Symbol);
+                string calculation = Logic.MathTwoInputCalculation(m_firstConstant, m_secondConstant, m_Symbol);
 
                 m_firstConstant = calculation;
                 m_secondConstant = string.Empty;
@@ -135,10 +134,11 @@ namespace Calculator
             m_CommaSet = false;
             m_userDidInput = false;
             InputTextBoxText = "0";
+            Keyboard.ClearFocus();
             e.Handled = true;
         }
 
-        // Pressing specific Operations on the UI
+        // Pressing specific Operations on the UI that manupulate in the only one Input
 
         private void OneInputOperation_Click(object sender, RoutedEventArgs e)
         {
@@ -149,7 +149,7 @@ namespace Calculator
             }
 
             // Do Calculation
-            string calculation = Logic.MathOneInputOperations(((Button)sender).Name, InputTextBoxText, out string HistoryText);
+            string calculation = Logic.MathOneInputCalculation(((Button)sender).Name, InputTextBoxText, out string HistoryText);
 
 
             // Check on which constant we do operation on
@@ -174,8 +174,9 @@ namespace Calculator
             }
             HistoryTextBoxText += m_secondConstant;
 
-            // Show Value in InputBx
+            // Show Value in InputBox
             InputTextBoxText = calculation;
+            Keyboard.ClearFocus();
             e.Handled = true;
         }
 
@@ -193,10 +194,7 @@ namespace Calculator
 
             History.Clear();
             InputTextBoxText = "0";
-            m_CommaSet = false;
-            m_firstConstant = string.Empty;
-            m_secondConstant = string.Empty;
-            m_Symbol = string.Empty;
+            SetMemberValuesToDefault();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -240,16 +238,37 @@ namespace Calculator
 
         private void ResultButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
-
-            if (HistoryTextBoxText == string.Empty)
+            if (m_Symbol == string.Empty)
             {
                 HistoryTextBoxText = InputTextBoxText + " =";
+                return;
             }
-            else
+            if (InputTextBoxText == string.Empty)
             {
-
+                return;
             }
+            if (m_userDidInput == false)
+            {
+                return;
+            }
+
+            m_secondConstant = InputTextBoxText;
+            HistoryTextBoxText += m_secondConstant + " = ";
+
+            InputTextBoxText = Logic.MathTwoInputCalculation(m_firstConstant, m_secondConstant, m_Symbol);
+
+            SetMemberValuesToDefault();
+            e.Handled = true;
         }
+
+        private void SetMemberValuesToDefault()
+        {
+              m_userDidInput = false;
+              m_CommaSet = false;
+              m_firstConstant = string.Empty;
+              m_Symbol = string.Empty;
+              m_secondConstant = string.Empty;
+        }
+
     }
 }
